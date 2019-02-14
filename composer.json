@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "laravel/more-recipes",
+    "description": "This is REST API for the more-recipes applicaion",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
@@ -12,7 +12,8 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~5.7",
+        "squizlabs/php_codesniffer": "^3.4"
     },
     "autoload": {
         "classmap": [
@@ -41,7 +42,12 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
-        ]
+        ],
+        "test": "phpunit",
+        "lint-fix": [
+           "phpcbf ./", 
+           "phpcs ./"
+        ] 
     },
     "config": {
         "preferred-install": "dist",
