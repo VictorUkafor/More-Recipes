@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "more-recipes REST API",
+    "description": "This is REST API for the more-recipes applicaion",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
@@ -41,7 +41,8 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
-        ]
+        ],
+        "test": "phpunit"
     },
     "config": {
         "preferred-install": "dist",
