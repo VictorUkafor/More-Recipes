@@ -20,9 +20,13 @@ Route::middleware('auth:api')->get(
     }
 );
 
-Route::get(
-    '/',
-    function () {
-        return 'You are welcome!';
-    }
-);
+
+Route::prefix('v1')->group(function () {
+    Route::prefix('auth')->group(function () {
+
+        // signup route
+        Route::post('signup', 'UserController@signup')->middleware('validateSignup');
+
+
+    });
+});
