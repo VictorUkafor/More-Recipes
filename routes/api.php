@@ -13,12 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get(
-    '/user',
-    function (Request $request) {
-        return $request->user();
-    }
-);
+// Route::middleware('auth:api')->get(
+//     '/user',
+//     function (Request $request) {
+//         return $request->user();
+//     }
+// );
 
 
 Route::prefix('v1')->group(function () {
@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
         // signup route
         Route::post('signup', 'UserController@signup')->middleware('validateSignup');
 
-
+        // signup route
+        Route::post('login', 'UserController@login')->middleware('validateLogin');
     });
 });
