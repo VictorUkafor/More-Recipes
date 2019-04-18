@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
         // signup route
         Route::post('signup', 'UserController@signup')->middleware('validateSignup');
 
-
+        // signup route
+        Route::post('login', 'UserController@login')->middleware('validateLogin');
     });
 });

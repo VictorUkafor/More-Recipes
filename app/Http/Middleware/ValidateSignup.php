@@ -7,7 +7,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ValidateAuth
+class ValidateSignup
 {
 
 
@@ -24,7 +24,7 @@ class ValidateAuth
             'firstName' => 'required',
             'lastName' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|alpha_num',
+            'password' => 'required|min:7|alpha_num',
             'confirmPassword' => 'required|same:password'
         ]);
 
@@ -34,20 +34,6 @@ class ValidateAuth
         }
 
         return $next($request);
-    }    
+    }
     
-    
-    /**
- * Get custom attributes for validator errors.
- *
- * @return array
- */
-public function attributes()
-{
-    return [
-        'email' => 'email address',
-        'firstName' => 'First Name'
-    ];
-}
-
 }

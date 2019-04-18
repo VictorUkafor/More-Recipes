@@ -7,7 +7,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UserExist
+class ValidateLogin
 {
     /**
      * Handle an incoming request.
@@ -18,6 +18,16 @@ class UserExist
      */
     public function handle($request, Closure $next)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json($errors, 400);
+        }
+
         return $next($request);
     }
 }
