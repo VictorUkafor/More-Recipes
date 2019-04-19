@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
-     * Show the profile for the given user.
+     * sign up a user.
      *
-     * @param  int  $id
-     * @return View
+     * @return a json object
      */
     public function signup(Request $request)
     {
@@ -37,11 +36,10 @@ class UserController extends Controller
         }
     }
 
-        /**
-     * Show the profile for the given user.
+    /**
+     * login a user.
      *
-     * @param  int  $id
-     * @return View
+     * @return a json object
      */
     public function login(Request $request)
     {
@@ -51,6 +49,11 @@ class UserController extends Controller
             ])) {
             $user = Auth::user();
             $token =  $user->createToken('authToken')->accessToken;
+            if (!$user || !$token) {
+                return response()->json([
+                    'errorMessage' => 'Internal server error'
+                ], 500);
+            }
             return response()->json([
                 'user' => $user, 'token' => $token
             ], 201);
@@ -59,5 +62,17 @@ class UserController extends Controller
                 'errorMessage' => 'Invalid email or password'
             ], 401);
         }
+    }
+
+
+    /**
+     * details api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function details(Request $request)
+    {
+        $user = Auth::user();
+        return response()->json(['user' => $user], 200);
     }
 }
