@@ -7,7 +7,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ValidateSignup
+class ValidateNewRecipe
 {
 
 
@@ -21,11 +21,10 @@ class ValidateSignup
     public function handle($request, Closure $next)
     {
         $validator = Validator::make($request->all(), [
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:7|alpha_num',
-            'confirmPassword' => 'required|same:password'
+            'name' => 'required|unique:recipes,name',
+            'ingredients' => 'required',
+            'method' => 'required',
+            'image' => 'required|image|dimensions:width=225,height=191'
         ]);
 
         if ($validator->fails()) {

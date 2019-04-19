@@ -11,6 +11,14 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     /**
+     * Get the recipes for the blog post.
+     */
+    public function recipes()
+    {
+        return $this->hasMany('App\Recipe');
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
