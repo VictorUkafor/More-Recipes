@@ -41,7 +41,6 @@ class RecipeController extends Controller
         }
     }
 
-
     /**
      * display all recipes.
      *
@@ -153,4 +152,4 @@ class RecipeController extends Controller
 
     }
 
-    }
+}

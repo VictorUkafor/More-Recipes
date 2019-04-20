@@ -9,7 +9,7 @@ class Recipe extends Model
 {
 
     use SoftDeletes;
-    
+
     /**
      * Get the user that owns the comment.
      */

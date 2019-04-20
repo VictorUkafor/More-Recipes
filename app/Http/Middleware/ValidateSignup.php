@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 class ValidateSignup
 {
 
-
     /**
      * Handle an incoming request.
      *
