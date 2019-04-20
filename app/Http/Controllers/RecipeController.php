@@ -39,4 +39,93 @@ class RecipeController extends Controller
                 'errorMessage' => 'Internal server error'], 500);
         }
     }
-}
+
+
+    /**
+     * display all recipes.
+     *
+     * @return a json object
+     */
+    public function showAll(Request $request)
+    {
+        $paginate = $request->query('paginate', 8);
+        $recipes = Recipe::orderBy('id', 'desc')
+        ->paginate($paginate);
+
+        if(!$recipes || $recipes->total() === 0){            
+            return response()->json([
+                'errorMessage' => 'No recipes found'
+            ], 404);
+        }else{            
+            return response()->json([
+                'recipes' => $recipes
+            ], 200);
+        }
+
+    }
+
+
+    /**
+     * display a single recipe
+     *
+     * @return a json object
+     */
+    public function show(Request $request, $id)
+    {
+        $recipe = Recipe::find($id);
+
+        if($recipe){             
+            return response()->json([
+                'recipe' => $recipe
+            ], 200);  
+        }else{            
+            return response()->json([
+                'errorMessage' => 'recipe not found'
+            ], 404);
+        }
+
+    }
+
+
+    /**
+     * updates a single recipe
+     *
+     * @return a json object
+     */
+    public function update(Request $request, $id)
+    {
+        $recipe = Recipe::find($id);         
+        
+        $image_name = $request->image ? $request->image->getRealPath() : '';  
+        
+        $filename = $request->name ? $request->name : $recipe->name;
+        
+        $image_public_id = $request->image ? str_replace(' ', '', $filename) : $recipe->image; 
+
+        $recipe->name = $filename;
+        
+        $recipe->ingredients = $request->ingredients ?
+         $request->ingredients : $recipe->ingredients;
+
+        $recipe->method = $request->method ?
+         $request->method : $recipe->method;
+
+        $recipe->image = $image_public_id;
+
+            if(strlen($image_name) !== 0){
+              Cloudder::upload($image_name, $image_public_id);  
+            }        
+            
+            if ($recipe->save()) {
+                return response()->json([
+                    'successMessage' => 'Recipe updated successfully',
+                    'recipe' => $recipe
+                ], 201);
+            } else {
+                return response()->json([
+                    'errorMessage' => 'Internal server error'
+                ], 500);
+            }
+
+      }
+    }
