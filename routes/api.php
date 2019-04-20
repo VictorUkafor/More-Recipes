@@ -27,7 +27,19 @@ Route::prefix('v1')->group(function () {
         // signup route
         Route::post('signup', 'UserController@signup')->middleware('validateSignup');
 
-        // signup route
+        // login route
         Route::post('login', 'UserController@login')->middleware('validateLogin');
+
+        //user details route
+        Route::get('user', 'UserController@details')->middleware('auth:api');
+    });
+
+    // recipes
+    Route::prefix('recipes')->group(function () {
+        Route::middleware(['auth:api'])->group(function () {
+            
+            // saves a recipe
+            Route::post('/', 'RecipeController@store')->middleware('validateNewRecipe');
+        });
     });
 });
