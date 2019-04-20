@@ -47,8 +47,8 @@
         ],
         "test": "phpunit",
         "lint-fix": [
-           "phpcbf ./", 
-           "phpcs ./"
+           "phpcbf", 
+           "phpcs"
         ] 
     },
     "config": {

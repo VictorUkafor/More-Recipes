@@ -40,6 +40,24 @@ Route::prefix('v1')->group(function () {
             
             // saves a recipe
             Route::post('/', 'RecipeController@store')->middleware('validateNewRecipe');
+
+            Route::middleware(['middleware' => 'findRecipe'])->group(function () {
+
+            // update a recipe
+            Route::put('/{id}', 'RecipeController@update')->middleware('validateUpdateRecipe');
+
+            // soft deletes a recipe
+            Route::delete('/{id}', 'RecipeController@softDelete');
+
+            });
+
         });
+
+        // show all recipes
+        Route::get('/', 'RecipeController@showAll');
+
+        // show a recipe
+        Route::get('/{id}', 'RecipeController@show');
+
     });
 });

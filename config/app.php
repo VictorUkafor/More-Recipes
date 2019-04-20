@@ -183,8 +183,6 @@ return [
         // Cloudinary
         JD\Cloudder\CloudderServiceProvider::class,
 
-        Laravel\Passport\PassportServiceProvider::class,
-
     ],
 
     /*

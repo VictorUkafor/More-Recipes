@@ -58,8 +58,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'validateSignup' => \App\Http\Middleware\ValidateSignup::class,
         'validateLogin' => \App\Http\Middleware\ValidateLogin::class,
-
         'validateNewRecipe' => \App\Http\Middleware\ValidateNewRecipe::class,
-        'authorize' => \App\Http\Middleware\Authorize::class,
+        'validateUpdateRecipe' => \App\Http\Middleware\ValidateUpdateRecipe::class,
+        'findRecipe' => \App\Http\Middleware\FindRecipe::class,
     ];
 }
