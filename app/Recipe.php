@@ -2,10 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
+
+    use SoftDeletes;
+    
     /**
      * Get the user that owns the comment.
      */

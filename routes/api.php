@@ -46,6 +46,9 @@ Route::prefix('v1')->group(function () {
             // update a recipe
             Route::put('/{id}', 'RecipeController@update')->middleware('validateUpdateRecipe');
 
+            // soft deletes a recipe
+            Route::delete('/{id}', 'RecipeController@softDelete');
+
             });
 
         });

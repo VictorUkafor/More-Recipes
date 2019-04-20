@@ -28,8 +28,9 @@ class RecipeController extends Controller
         $recipe->method = $request->method;
         $recipe->image = $image_public_id;
 
-        if ($recipe->save()) {
-            Cloudder::upload($image_name, $image_public_id);
+        $upload = Cloudder::upload($image_name, $image_public_id);
+
+        if ($upload && $recipe->save()) {
             return response()->json([
                 'successMessage' => 'Recipe uploaded successfully',
                 'recipe' => $recipe
@@ -80,7 +81,7 @@ class RecipeController extends Controller
             ], 200);  
         }else{            
             return response()->json([
-                'errorMessage' => 'recipe not found'
+                'errorMessage' => 'Recipe not found'
             ], 404);
         }
 
@@ -94,8 +95,8 @@ class RecipeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $recipe = Recipe::find($id);         
-        
+        $old_image = Recipe::find($id)->image; 
+                
         $image_name = $request->image ? $request->image->getRealPath() : '';  
         
         $filename = $request->name ? $request->name : $recipe->name;
@@ -103,7 +104,7 @@ class RecipeController extends Controller
         $image_public_id = $request->image ? str_replace(' ', '', $filename) : $recipe->image; 
 
         $recipe->name = $filename;
-        
+
         $recipe->ingredients = $request->ingredients ?
          $request->ingredients : $recipe->ingredients;
 
@@ -113,7 +114,8 @@ class RecipeController extends Controller
         $recipe->image = $image_public_id;
 
             if(strlen($image_name) !== 0){
-              Cloudder::upload($image_name, $image_public_id);  
+              Cloudder::upload($image_name, $image_public_id); 
+              Cloudder::delete($old_image); 
             }        
             
             if ($recipe->save()) {
@@ -128,4 +130,27 @@ class RecipeController extends Controller
             }
 
       }
+
+
+    /**
+     * soft deletes a recipes
+     *
+     * @return a json object
+     */
+    public function softDelete(Request $request, $id)
+    {
+        $softDelete = Recipe::destroy($id);
+
+        if($softDelete){ 
+            return response()->json([
+                'success' => 'Recipe deleted successfully'
+            ], 200);  
+        }else{            
+            return response()->json([
+                'errorMessage' => 'recipe not found'
+            ], 404);
+        }
+
+    }
+
     }

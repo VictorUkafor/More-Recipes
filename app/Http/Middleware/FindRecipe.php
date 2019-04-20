@@ -26,12 +26,16 @@ class FindRecipe
         $user_id = Auth::user()->id;
         $recipe = Recipe::find($id);
 
-        if($recipe->user_id === $user_id){
-            return $next($request);           
-        }else{            
+        if(!$recipe){
+            return response()->json([
+                'errorMessage' => 'Recipe not found'
+            ], 404);
+        }else if($recipe->user_id !== $user_id){
             return response()->json([
                 'errorMessage' => 'Unauthorized action'
-            ], 401);
+            ], 401);           
+        }else{   
+            return $next($request);           
         }
     }
 }
