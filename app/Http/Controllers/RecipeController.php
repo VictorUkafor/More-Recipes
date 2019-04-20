@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Recipe;
+use App\Reaction;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,13 +17,12 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = Auth::user()->id;
         $image_public_id = str_replace(' ', '', $request->name);
         $image_name = $request->image->getRealPath();
 
         $recipe = new Recipe;
         
-        $recipe->user_id = $user_id;
+        $recipe->user_id = Auth::user()->id;
         $recipe->name = $request->name;
         $recipe->ingredients = $request->ingredients;
         $recipe->method = $request->method;
@@ -31,6 +31,10 @@ class RecipeController extends Controller
         $upload = Cloudder::upload($image_name, $image_public_id);
 
         if ($upload && $recipe->save()) {
+
+            $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
+            $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
+
             return response()->json([
                 'successMessage' => 'Recipe uploaded successfully',
                 'recipe' => $recipe
@@ -52,18 +56,16 @@ class RecipeController extends Controller
         $recipes = Recipe::orderBy('id', 'desc')
         ->paginate($paginate);
 
-        if(!$recipes || $recipes->total() === 0){            
-            return response()->json([
-                'errorMessage' => 'No recipes found'
-            ], 404);
-        }else{            
-            return response()->json([
+        foreach ($recipes as $recipe) {
+            $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
+            $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
+        }
+        
+        return response()->json([
                 'recipes' => $recipes
             ], 200);
+        
         }
-
-    }
-
 
     /**
      * display a single recipe
@@ -72,17 +74,15 @@ class RecipeController extends Controller
      */
     public function show(Request $request, $id)
     {
+        
         $recipe = Recipe::find($id);
 
-        if($recipe){             
-            return response()->json([
-                'recipe' => $recipe
-            ], 200);  
-        }else{            
-            return response()->json([
-                'errorMessage' => 'Recipe not found'
-            ], 404);
-        }
+        $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
+        $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
+        
+        return response()->json([
+            'recipe' => $recipe
+        ], 200);  
 
     }
 
@@ -118,6 +118,10 @@ class RecipeController extends Controller
             }        
             
             if ($recipe->save()) {
+
+                $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
+                $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
+
                 return response()->json([
                     'successMessage' => 'Recipe updated successfully',
                     'recipe' => $recipe
@@ -146,8 +150,8 @@ class RecipeController extends Controller
             ], 200);  
         }else{            
             return response()->json([
-                'errorMessage' => 'recipe not found'
-            ], 404);
+                'errorMessage' => 'Internal server error'
+            ], 500);
         }
 
     }

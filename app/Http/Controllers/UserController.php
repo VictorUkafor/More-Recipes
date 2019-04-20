@@ -73,6 +73,7 @@ class UserController extends Controller
     public function details(Request $request)
     {
         $user = Auth::user();
+        $user->recipes = $user->recipes;
         return response()->json(['user' => $user], 200);
     }
 }
