@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
             // saves a recipe
             Route::post('/', 'RecipeController@store')->middleware('validateNewRecipe');
 
-            Route::middleware(['findRecipe'])->group(function () {            
+            Route::middleware(['findRecipe'])->group(function () {
                 
                 Route::middleware(['ownRecipe'])->group(function () {
                     
@@ -46,8 +46,10 @@ Route::prefix('v1')->group(function () {
                 
                 // post a reaction
                 Route::post('/{id}/reaction', 'ReactionController@post');
-            });
 
+                // post a favourite
+                Route::post('/{id}/favourite', 'FavouriteController@post');
+            });
         });
 
         // show all recipes
@@ -55,6 +57,5 @@ Route::prefix('v1')->group(function () {
 
         // show a recipe
         Route::get('/{id}', 'RecipeController@show')->middleware('findRecipe');
-
     });
 });
