@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -47,8 +48,10 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password
             ])) {
+
             $user = Auth::user();
             $token =  $user->createToken('authToken')->accessToken;
+            
             if (!$user || !$token) {
                 return response()->json([
                     'errorMessage' => 'Internal server error'
@@ -73,6 +76,13 @@ class UserController extends Controller
     public function details(Request $request)
     {
         $user = Auth::user();
+
+        foreach($user->favourites as $favourite){
+            $recipe = Recipe::find($favourite->id);
+            $favourite->upvotes = $recipe->reactions()->where('vote', 1)->count();
+            $favourite->downvotes = $recipe->reactions()->where('vote', -1)->count();
+        }
+
         return response()->json(['user' => $user], 200);
     }
 }

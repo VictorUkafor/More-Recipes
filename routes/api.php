@@ -13,14 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get(
-//     '/user',
-//     function (Request $request) {
-//         return $request->user();
-//     }
-// );
-
-
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
 
@@ -41,23 +33,29 @@ Route::prefix('v1')->group(function () {
             // saves a recipe
             Route::post('/', 'RecipeController@store')->middleware('validateNewRecipe');
 
-            Route::middleware(['middleware' => 'findRecipe'])->group(function () {
+            Route::middleware(['findRecipe'])->group(function () {
+                
+                Route::middleware(['ownRecipe'])->group(function () {
+                    
+                    // update a recipe
+                    Route::put('/{id}', 'RecipeController@update')->middleware('validateUpdateRecipe');
 
-            // update a recipe
-            Route::put('/{id}', 'RecipeController@update')->middleware('validateUpdateRecipe');
+                    // soft deletes a recipe
+                    Route::delete('/{id}', 'RecipeController@softDelete');
+                });
+                
+                // post a reaction
+                Route::post('/{id}/reaction', 'ReactionController@post');
 
-            // soft deletes a recipe
-            Route::delete('/{id}', 'RecipeController@softDelete');
-
+                // post a favourite
+                Route::post('/{id}/favourite', 'FavouriteController@post');
             });
-
         });
 
         // show all recipes
-        Route::get('/', 'RecipeController@showAll');
+        Route::get('/', 'RecipeController@showAll')->middleware('findAllRecipes');
 
         // show a recipe
-        Route::get('/{id}', 'RecipeController@show');
-
+        Route::get('/{id}', 'RecipeController@show')->middleware('findRecipe');
     });
 });

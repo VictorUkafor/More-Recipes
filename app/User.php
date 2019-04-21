@@ -11,7 +11,16 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     /**
-     * Get the recipes for the blog post.
+     * Get the favourite recipes by the user.
+     */
+    public function favourites()
+    {
+        return $this->belongsToMany('App\Recipe')
+        ->withTimestamps();
+    }
+
+    /**
+     * Get the recipes by the user.
      */
     public function recipes()
     {

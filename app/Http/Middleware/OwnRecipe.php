@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class FindRecipe
+class OwnRecipe
 {
 
 
@@ -23,14 +23,14 @@ class FindRecipe
     public function handle($request, Closure $next)
     {
         $id = $request->route('id');
+        $user_id = Auth::user()->id;
         $recipe = Recipe::find($id);
-
-        if(!$recipe){
+        
+        if($recipe->user_id !== $user_id){
             return response()->json([
-                'errorMessage' => 'Recipe not found'
-            ], 404);
-        }
-        else{   
+                'errorMessage' => 'Unauthorized action'
+            ], 401);           
+        }else{   
             return $next($request);           
         }
     }

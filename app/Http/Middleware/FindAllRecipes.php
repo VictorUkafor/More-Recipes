@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class FindRecipe
+class FindAllRecipes
 {
 
 
@@ -22,12 +22,14 @@ class FindRecipe
      */
     public function handle($request, Closure $next)
     {
-        $id = $request->route('id');
-        $recipe = Recipe::find($id);
+        $paginate = $request->query('paginate', 8);
 
-        if(!$recipe){
+        $recipes = Recipe::orderBy('id', 'desc')
+        ->paginate($paginate);
+
+        if(!$recipes || $recipes->total() === 0){
             return response()->json([
-                'errorMessage' => 'Recipe not found'
+                'errorMessage' => 'No recipe found'
             ], 404);
         }
         else{   

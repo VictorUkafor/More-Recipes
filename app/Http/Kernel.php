@@ -60,6 +60,8 @@ class Kernel extends HttpKernel
         'validateLogin' => \App\Http\Middleware\ValidateLogin::class,
         'validateNewRecipe' => \App\Http\Middleware\ValidateNewRecipe::class,
         'validateUpdateRecipe' => \App\Http\Middleware\ValidateUpdateRecipe::class,
+        'ownRecipe' => \App\Http\Middleware\OwnRecipe::class,
         'findRecipe' => \App\Http\Middleware\FindRecipe::class,
+        'findAllRecipes' => \App\Http\Middleware\FindAllRecipes::class,
     ];
 }
