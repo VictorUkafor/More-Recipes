@@ -13,16 +13,18 @@ class FavouriteController extends Controller
      *
      * @return a json object
      */
-    public function post(Request $request, $id)
+    public function post(Request $request, $recipeId)
     {
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
         $user = Auth::user();
 
-        if(!$user->favourites()->whereId($id)->exists()){
-            $user->favourites()->attach($id);   
+        // if relationship does not exist creates one
+        if(!$user->favourites()->whereId($recipeId)->exists()){
+            $user->favourites()->attach($recipeId);   
         }
 
         foreach($user->favourites as $favourite){
+            // insert upvotes and downvotes into recipe
             $favourite->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $favourite->downvotes = $recipe->reactions()->where('vote', -1)->count();
         }

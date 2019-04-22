@@ -22,8 +22,8 @@ class FindRecipe
      */
     public function handle($request, Closure $next)
     {
-        $id = $request->route('id');
-        $recipe = Recipe::find($id);
+        $recipeId = $request->route('recipeId');
+        $recipe = Recipe::find($recipeId);
 
         if(!$recipe){
             return response()->json([

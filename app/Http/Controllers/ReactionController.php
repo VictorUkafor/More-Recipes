@@ -14,31 +14,35 @@ class ReactionController extends Controller
      *
      * @return a json object
      */
-    public function post(Request $request, $id)
+    public function post(Request $request, $recipeId)
     {
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
         $user_id = Auth::user()->id;
         $vote = $request->query('vote');
 
+        // sets query vote to zero when it is
+        // neither 1 or -1
         if($vote != 1 && $vote != -1){
             $vote = 0;
         } 
 
         $reaction = Reaction::where([
-            'recipe_id' => $id,
+            'recipe_id' => $recipeId,
             'user_id' => $user_id
         ])->first();
 
+        // create new reaction when reaction 
+        // does not exist
         if(!$reaction){
             $reaction = new Reaction;
         } 
 
-        $reaction->recipe_id = $id;
+        $reaction->recipe_id = $recipeId;
         $reaction->user_id = $user_id;
         $reaction->vote = $vote;
         
         if ($reaction->save()) {            
-            
+            // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
 

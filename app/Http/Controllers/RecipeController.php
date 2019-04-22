@@ -28,10 +28,11 @@ class RecipeController extends Controller
         $recipe->method = $request->method;
         $recipe->image = $image_public_id;
 
+        // uploads image to cloudinary
         $upload = Cloudder::upload($image_name, $image_public_id);
 
         if ($upload && $recipe->save()) {
-
+            // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
 
@@ -45,6 +46,7 @@ class RecipeController extends Controller
         }
     }
 
+
     /**
      * display all recipes.
      *
@@ -53,10 +55,24 @@ class RecipeController extends Controller
     public function showAll(Request $request)
     {
         $paginate = $request->query('paginate', 8);
+        $upvote = $request->query('sort');        
+        
+        // sort recipes result by id
         $recipes = Recipe::orderBy('id', 'desc')
         ->paginate($paginate);
 
+        // sort recipes result by upvote count 
+        // if query sort=vote is set
+        if($upvote && $upvote === 'upvote'){
+            $recipes = Recipe::withCount(['reactions' => function ($query) {
+                $query->where('vote', 1);
+            }])
+            ->latest('reactions_count')
+            ->paginate($paginate);
+        }
+        
         foreach ($recipes as $recipe) {
+            // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         }
@@ -72,11 +88,12 @@ class RecipeController extends Controller
      *
      * @return a json object
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $recipeId)
     {
         
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
 
+        // insert upvotes and downvotes into recipe
         $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
         $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         
@@ -92,16 +109,24 @@ class RecipeController extends Controller
      *
      * @return a json object
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $recipeId)
     {
-        $old_image = Recipe::find($id)->image; 
+        // get public id of saved recipe image
+        $old_image = Recipe::find($recipeId)->image; 
                 
-        $image_name = $request->image ? $request->image->getRealPath() : '';  
+        // get the RealPath of new recipe image
+        $image_name = $request->image ? 
+        $request->image->getRealPath() : '';  
         
-        $filename = $request->name ? $request->name : $recipe->name;
+        // get recipe name to be saved
+        $filename = $request->name ? 
+        $request->name : $recipe->name;
         
-        $image_public_id = $request->image ? str_replace(' ', '', $filename) : $recipe->image; 
+        // get public id to be saved
+        $image_public_id = $request->image ? 
+        str_replace(' ', '', $filename) : $recipe->image; 
 
+        // updates record
         $recipe->name = $filename;
 
         $recipe->ingredients = $request->ingredients ?
@@ -112,13 +137,15 @@ class RecipeController extends Controller
 
         $recipe->image = $image_public_id;
 
+            // if an image is uploaded, save to cloudinary
+            // and deletes the previous one
             if(strlen($image_name) !== 0){
               Cloudder::upload($image_name, $image_public_id); 
               Cloudder::delete($old_image); 
             }        
             
             if ($recipe->save()) {
-
+                // insert upvotes and downvotes into recipe
                 $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
                 $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
 
@@ -140,9 +167,9 @@ class RecipeController extends Controller
      *
      * @return a json object
      */
-    public function softDelete(Request $request, $id)
+    public function softDelete(Request $request, $recipeId)
     {
-        $softDelete = Recipe::destroy($id);
+        $softDelete = Recipe::destroy($recipeId);
 
         if($softDelete){ 
             return response()->json([

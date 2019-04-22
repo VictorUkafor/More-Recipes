@@ -22,9 +22,9 @@ class OwnRecipe
      */
     public function handle($request, Closure $next)
     {
-        $id = $request->route('id');
+        $recipeId = $request->route('recipeId');
         $user_id = Auth::user()->id;
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
         
         if($recipe->user_id !== $user_id){
             return response()->json([

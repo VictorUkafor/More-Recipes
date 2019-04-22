@@ -38,17 +38,17 @@ Route::prefix('v1')->group(function () {
                 Route::middleware(['ownRecipe'])->group(function () {
                     
                     // update a recipe
-                    Route::put('/{id}', 'RecipeController@update')->middleware('validateUpdateRecipe');
+                    Route::put('/{recipeId}', 'RecipeController@update')->middleware('validateUpdateRecipe');
 
                     // soft deletes a recipe
-                    Route::delete('/{id}', 'RecipeController@softDelete');
+                    Route::delete('/{recipeId}', 'RecipeController@softDelete');
                 });
                 
                 // post a reaction
-                Route::post('/{id}/reaction', 'ReactionController@post');
+                Route::post('/{recipeId}/reaction', 'ReactionController@post');
 
                 // post a favourite
-                Route::post('/{id}/favourite', 'FavouriteController@post');
+                Route::post('/{recipeId}/favourite', 'FavouriteController@post');
             });
         });
 
@@ -56,6 +56,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/', 'RecipeController@showAll')->middleware('findAllRecipes');
 
         // show a recipe
-        Route::get('/{id}', 'RecipeController@show')->middleware('findRecipe');
+        Route::get('/{recipeId}', 'RecipeController@show')->middleware('findRecipe');
     });
 });
