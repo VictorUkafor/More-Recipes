@@ -1,0 +1,375 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="/docs/css/style.css" />
+    <script src="/docs/js/all.js"></script>
+
+
+          <script>
+        $(function() {
+            setupLanguages(["bash","javascript"]);
+        });
+      </script>
+      </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="/docs/images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        <img src="/docs/images/logo.png" />
+                    <div class="lang-selector">
+                                  <a href="#" data-language-name="bash">bash</a>
+                                  <a href="#" data-language-name="javascript">javascript</a>
+                            </div>
+                            <div class="search">
+              <input type="text" class="search" id="input-search" placeholder="Search">
+            </div>
+            <ul class="search-results"></ul>
+              <div id="toc">
+      </div>
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
+            </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
+<!-- END_INFO -->
+<h1>general</h1>
+<!-- START_fb963cd2a8a1aea083363e2d2f4d272a -->
+<h2>sign up a user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/v1/auth/signup" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/auth/signup",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/v1/auth/signup</code></p>
+<!-- END_fb963cd2a8a1aea083363e2d2f4d272a -->
+<!-- START_2be1f0e022faf424f18f30275e61416e -->
+<h2>login a user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/v1/auth/login" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/auth/login",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/v1/auth/login</code></p>
+<!-- END_2be1f0e022faf424f18f30275e61416e -->
+<!-- START_157d8ad79ead4900498aa93abc060df0 -->
+<h2>details api</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "http://localhost/api/v1/auth/user" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/auth/user",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/v1/auth/user</code></p>
+<p><code>HEAD api/v1/auth/user</code></p>
+<!-- END_157d8ad79ead4900498aa93abc060df0 -->
+<!-- START_8f19f74006176e31186973507712f4f8 -->
+<h2>stores a recipe to the database.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/v1/recipes" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/v1/recipes</code></p>
+<!-- END_8f19f74006176e31186973507712f4f8 -->
+<!-- START_e96c3a5a197bf92279c68ffdd0456c1b -->
+<h2>updates a single recipe</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost/api/v1/recipes/{recipeId}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes/{recipeId}",
+    "method": "PUT",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT api/v1/recipes/{recipeId}</code></p>
+<!-- END_e96c3a5a197bf92279c68ffdd0456c1b -->
+<!-- START_9b2fd453ecb9f8a8a5b47fc3f7fffd1e -->
+<h2>soft deletes a recipes</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost/api/v1/recipes/{recipeId}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes/{recipeId}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/v1/recipes/{recipeId}</code></p>
+<!-- END_9b2fd453ecb9f8a8a5b47fc3f7fffd1e -->
+<!-- START_6c899b10959696e5c85e0c4e1d0387ef -->
+<h2>makes a reaction.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/v1/recipes/{recipeId}/reaction" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes/{recipeId}/reaction",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/v1/recipes/{recipeId}/reaction</code></p>
+<!-- END_6c899b10959696e5c85e0c4e1d0387ef -->
+<!-- START_1c1e1c84f9af091e54af89937a739b5c -->
+<h2>Adds a favourite.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/v1/recipes/{recipeId}/favourite" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes/{recipeId}/favourite",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/v1/recipes/{recipeId}/favourite</code></p>
+<!-- END_1c1e1c84f9af091e54af89937a739b5c -->
+<!-- START_e6f63b62d58b6a43a11393be894af978 -->
+<h2>display all recipes.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "http://localhost/api/v1/recipes" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "recipes": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 3,
+                "user_id": 2,
+                "name": "Fried Rice and Egg10",
+                "ingredients": "rice, beans",
+                "method": "hiuhw hiuhw ewfuw g df bdubgcghugggy",
+                "image": "FriedRiceandEgg10",
+                "deleted_at": null,
+                "created_at": "2019-04-20 14:25:31",
+                "updated_at": "2019-04-20 14:25:31",
+                "upvotes": 2,
+                "downvotes": 0
+            },
+            {
+                "id": 2,
+                "user_id": 2,
+                "name": "Fried Rice and Egg7",
+                "ingredients": "rice, beans",
+                "method": "hiuhw hiuhw ewfuw g df bdubgcghugggy",
+                "image": "FriedRiceandEgg7",
+                "deleted_at": null,
+                "created_at": "2019-04-20 14:22:45",
+                "updated_at": "2019-04-20 14:22:45",
+                "upvotes": 0,
+                "downvotes": 1
+            },
+            {
+                "id": 1,
+                "user_id": 2,
+                "name": "Fried Rice and Egg4",
+                "ingredients": "rice, beans",
+                "method": "hiuhw hiuhw ewfuw g df bdubgcghugggy",
+                "image": "FriedRiceandEgg4",
+                "deleted_at": null,
+                "created_at": "2019-04-20 13:06:00",
+                "updated_at": "2019-04-20 13:06:00",
+                "upvotes": 1,
+                "downvotes": 0
+            }
+        ],
+        "from": 1,
+        "last_page": 1,
+        "next_page_url": null,
+        "path": "http:\/\/localhost\/api\/v1\/recipes",
+        "per_page": 8,
+        "prev_page_url": null,
+        "to": 3,
+        "total": 3
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/v1/recipes</code></p>
+<p><code>HEAD api/v1/recipes</code></p>
+<!-- END_e6f63b62d58b6a43a11393be894af978 -->
+<!-- START_6caaae685c2f4726a91d1f15ab6811ba -->
+<h2>display a single recipe</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "http://localhost/api/v1/recipes/{recipeId}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost/api/v1/recipes/{recipeId}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "recipe": {
+        "id": 1,
+        "user_id": 2,
+        "name": "Fried Rice and Egg4",
+        "ingredients": "rice, beans",
+        "method": "hiuhw hiuhw ewfuw g df bdubgcghugggy",
+        "image": "FriedRiceandEgg4",
+        "deleted_at": null,
+        "created_at": "2019-04-20 13:06:00",
+        "updated_at": "2019-04-20 13:06:00",
+        "upvotes": 1,
+        "downvotes": 0
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/v1/recipes/{recipeId}</code></p>
+<p><code>HEAD api/v1/recipes/{recipeId}</code></p>
+<!-- END_6caaae685c2f4726a91d1f15ab6811ba -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
+    </div>
+  </body>
+</html>

@@ -8,12 +8,18 @@ use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Recipe
+ *
+ * This Controller handles all recipe related logic and methods
+ */
 class RecipeController extends Controller
 {
     /**
      * stores a recipe to the database.
+     * @param  \Illuminate\Http\Request  $request
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function store(Request $request)
     {
@@ -49,8 +55,9 @@ class RecipeController extends Controller
 
     /**
      * display all recipes.
+     * @param  \Illuminate\Http\Request  $request
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function showAll(Request $request)
     {
@@ -85,8 +92,10 @@ class RecipeController extends Controller
 
     /**
      * display a single recipe
+     * @param  \Illuminate\Http\Request  $request
+     * @param $recipeId recipe.id
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function show(Request $request, $recipeId)
     {
@@ -106,8 +115,10 @@ class RecipeController extends Controller
 
     /**
      * updates a single recipe
+     * @param  \Illuminate\Http\Request  $request
+     * @param $recipeId recipe.id
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function update(Request $request, $recipeId)
     {
@@ -164,8 +175,10 @@ class RecipeController extends Controller
 
     /**
      * soft deletes a recipes
+     * @param  \Illuminate\Http\Request  $request
+     * @param $recipeId recipe.id
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function softDelete(Request $request, $recipeId)
     {

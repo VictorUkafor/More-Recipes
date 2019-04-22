@@ -9,12 +9,18 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @resource User
+ *
+ * This Controller handles all user related logic and methods
+ */
 class UserController extends Controller
 {
     /**
      * sign up a user.
+     * @param  \Illuminate\Http\Request  $request
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function signup(Request $request)
     {
@@ -38,8 +44,9 @@ class UserController extends Controller
 
     /**
      * login a user.
+     * @param  \Illuminate\Http\Request  $request
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function login(Request $request)
     {
@@ -77,8 +84,9 @@ class UserController extends Controller
 
     /**
      * details api
+     * @param  \Illuminate\Http\Request  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response json object
      */
     public function details(Request $request)
     {

@@ -7,12 +7,19 @@ use App\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @resource Reaction
+ *
+ * This Controller handles all reaction related logic and methods
+ */
 class ReactionController extends Controller
 {
     /**
      * makes a reaction.
+     * @param  \Illuminate\Http\Request  $request
+     * @param $recipeId recipe.id
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function post(Request $request, $recipeId)
     {

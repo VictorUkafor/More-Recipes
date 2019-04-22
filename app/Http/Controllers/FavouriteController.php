@@ -6,12 +6,19 @@ use App\Recipe;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Favourite
+ *
+ * This Controller handles all favourite related logic and methods
+ */
 class FavouriteController extends Controller
 {
     /**
      * Adds a favourite.
+     * @param  \Illuminate\Http\Request  $request
+     * @param $recipeId recipe.id
      *
-     * @return a json object
+     * @return \Illuminate\Http\Response json object
      */
     public function post(Request $request, $recipeId)
     {
