@@ -18,9 +18,13 @@ class UserController extends Controller
 {
     /**
      * sign up a user.
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [string] first_name
+     * @param  [string] last_name
+     * @param  [string] email
+     * @param  [string] password
+     * @param  [string] password_confirmation
+     * @return [json] user
      */
     public function signup(Request $request)
     {
@@ -44,9 +48,10 @@ class UserController extends Controller
 
     /**
      * login a user.
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [string] email
+     * @param  [string] password
+     * @return [json] user
      */
     public function login(Request $request)
     {
@@ -84,9 +89,8 @@ class UserController extends Controller
 
     /**
      * details api
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @return [json] user
      */
     public function details(Request $request)
     {

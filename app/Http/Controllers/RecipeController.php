@@ -17,9 +17,13 @@ class RecipeController extends Controller
 {
     /**
      * stores a recipe to the database.
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [string] name
+     * @param  [string] ingredients
+     * @param  [string] method
+     * @param  [string] image
+     * @return [string] message
+     * @return [json] recipe
      */
     public function store(Request $request)
     {
@@ -55,9 +59,10 @@ class RecipeController extends Controller
 
     /**
      * display all recipes.
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [string] sort
+     * @param  [integer] paginate
+     * @return [json] recipes
      */
     public function showAll(Request $request)
     {
@@ -92,10 +97,9 @@ class RecipeController extends Controller
 
     /**
      * display a single recipe
-     * @param  \Illuminate\Http\Request  $request
-     * @param $recipeId recipe.id
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @return [integer] recipe id
+     * @return [json] recipe
      */
     public function show(Request $request, $recipeId)
     {
@@ -115,10 +119,14 @@ class RecipeController extends Controller
 
     /**
      * updates a single recipe
-     * @param  \Illuminate\Http\Request  $request
-     * @param $recipeId recipe.id
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [integer] recipe id
+     * @param  [string] name
+     * @param  [string] ingredients
+     * @param  [string] method
+     * @param  [string] image
+     * @return [string] message
+     * @return [json] recipe
      */
     public function update(Request $request, $recipeId)
     {
@@ -174,11 +182,10 @@ class RecipeController extends Controller
 
 
     /**
-     * soft deletes a recipes
-     * @param  \Illuminate\Http\Request  $request
-     * @param $recipeId recipe.id
-     *
-     * @return \Illuminate\Http\Response json object
+     * soft deletes a recipe
+     * 
+     * @param  [integer] recipe id
+     * @return [string] message
      */
     public function softDelete(Request $request, $recipeId)
     {

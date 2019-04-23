@@ -15,10 +15,10 @@ class FavouriteController extends Controller
 {
     /**
      * Adds a favourite.
-     * @param  \Illuminate\Http\Request  $request
-     * @param $recipeId recipe.id
-     *
-     * @return \Illuminate\Http\Response json object
+     * 
+     * @param  [integer] recipe id
+     * @return [string] message
+     * @return [json] recipe
      */
     public function post(Request $request, $recipeId)
     {

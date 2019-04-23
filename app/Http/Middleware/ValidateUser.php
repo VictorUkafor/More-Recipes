@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ValidateSignup
+class ValidateUser
 {
-
     /**
      * Handle an incoming request.
      *
@@ -20,17 +20,23 @@ class ValidateSignup
     public function handle($request, Closure $next)
     {
         $validator = Validator::make($request->all(), [
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:7|alpha_num|confirmed',
-            'password_confirmation' => 'required|same:password',
+            'email' => 'required|string|email',
         ]);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json($errors, 400);
         }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user){
+            return response()->json([
+                'message' => "We can't find a user with that e-mail address."
+            ], 404);
+        }
+
+        $request->user = $user;
 
         return $next($request);
     }
