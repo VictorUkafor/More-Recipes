@@ -75,7 +75,7 @@ class RecipeController extends Controller
 
         // sort recipes result by upvote count 
         // if query sort=vote is set
-        if($upvote && $upvote === 'upvote'){
+        if($upvote && $upvote === 'vote'){
             $recipes = Recipe::withCount(['reactions' => function ($query) {
                 $query->where('vote', 1);
             }])
