@@ -6,23 +6,32 @@ use App\Recipe;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Favourite
+ *
+ * This Controller handles all favourite related logic and methods
+ */
 class FavouriteController extends Controller
 {
     /**
      * Adds a favourite.
-     *
-     * @return a json object
+     * 
+     * @param  [integer] recipe id
+     * @return [string] message
+     * @return [json] recipe
      */
-    public function post(Request $request, $id)
+    public function post(Request $request, $recipeId)
     {
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
         $user = Auth::user();
 
-        if(!$user->favourites()->whereId($id)->exists()){
-            $user->favourites()->attach($id);   
+        // if relationship does not exist creates one
+        if(!$user->favourites()->whereId($recipeId)->exists()){
+            $user->favourites()->attach($recipeId);   
         }
 
         foreach($user->favourites as $favourite){
+            // insert upvotes and downvotes into recipe
             $favourite->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $favourite->downvotes = $recipe->reactions()->where('vote', -1)->count();
         }

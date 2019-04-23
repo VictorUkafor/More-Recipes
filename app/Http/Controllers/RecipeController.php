@@ -8,12 +8,22 @@ use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Recipe
+ *
+ * This Controller handles all recipe related logic and methods
+ */
 class RecipeController extends Controller
 {
     /**
      * stores a recipe to the database.
-     *
-     * @return a json object
+     * 
+     * @param  [string] name
+     * @param  [string] ingredients
+     * @param  [string] method
+     * @param  [string] image
+     * @return [string] message
+     * @return [json] recipe
      */
     public function store(Request $request)
     {
@@ -28,10 +38,11 @@ class RecipeController extends Controller
         $recipe->method = $request->method;
         $recipe->image = $image_public_id;
 
+        // uploads image to cloudinary
         $upload = Cloudder::upload($image_name, $image_public_id);
 
         if ($upload && $recipe->save()) {
-
+            // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
 
@@ -45,18 +56,35 @@ class RecipeController extends Controller
         }
     }
 
+
     /**
      * display all recipes.
-     *
-     * @return a json object
+     * 
+     * @param  [string] sort
+     * @param  [integer] paginate
+     * @return [json] recipes
      */
     public function showAll(Request $request)
     {
         $paginate = $request->query('paginate', 8);
+        $upvote = $request->query('sort');        
+        
+        // sort recipes result by id
         $recipes = Recipe::orderBy('id', 'desc')
         ->paginate($paginate);
 
+        // sort recipes result by upvote count 
+        // if query sort=vote is set
+        if($upvote && $upvote === 'upvote'){
+            $recipes = Recipe::withCount(['reactions' => function ($query) {
+                $query->where('vote', 1);
+            }])
+            ->latest('reactions_count')
+            ->paginate($paginate);
+        }
+        
         foreach ($recipes as $recipe) {
+            // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         }
@@ -69,14 +97,16 @@ class RecipeController extends Controller
 
     /**
      * display a single recipe
-     *
-     * @return a json object
+     * 
+     * @return [integer] recipe id
+     * @return [json] recipe
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $recipeId)
     {
         
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::find($recipeId);
 
+        // insert upvotes and downvotes into recipe
         $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
         $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         
@@ -89,19 +119,33 @@ class RecipeController extends Controller
 
     /**
      * updates a single recipe
-     *
-     * @return a json object
+     * 
+     * @param  [integer] recipe id
+     * @param  [string] name
+     * @param  [string] ingredients
+     * @param  [string] method
+     * @param  [string] image
+     * @return [string] message
+     * @return [json] recipe
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $recipeId)
     {
-        $old_image = Recipe::find($id)->image; 
+        // get public id of saved recipe image
+        $old_image = Recipe::find($recipeId)->image; 
                 
-        $image_name = $request->image ? $request->image->getRealPath() : '';  
+        // get the RealPath of new recipe image
+        $image_name = $request->image ? 
+        $request->image->getRealPath() : '';  
         
-        $filename = $request->name ? $request->name : $recipe->name;
+        // get recipe name to be saved
+        $filename = $request->name ? 
+        $request->name : $recipe->name;
         
-        $image_public_id = $request->image ? str_replace(' ', '', $filename) : $recipe->image; 
+        // get public id to be saved
+        $image_public_id = $request->image ? 
+        str_replace(' ', '', $filename) : $recipe->image; 
 
+        // updates record
         $recipe->name = $filename;
 
         $recipe->ingredients = $request->ingredients ?
@@ -112,13 +156,15 @@ class RecipeController extends Controller
 
         $recipe->image = $image_public_id;
 
+            // if an image is uploaded, save to cloudinary
+            // and deletes the previous one
             if(strlen($image_name) !== 0){
               Cloudder::upload($image_name, $image_public_id); 
               Cloudder::delete($old_image); 
             }        
             
             if ($recipe->save()) {
-
+                // insert upvotes and downvotes into recipe
                 $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
                 $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
 
@@ -136,13 +182,14 @@ class RecipeController extends Controller
 
 
     /**
-     * soft deletes a recipes
-     *
-     * @return a json object
+     * soft deletes a recipe
+     * 
+     * @param  [integer] recipe id
+     * @return [string] message
      */
-    public function softDelete(Request $request, $id)
+    public function softDelete(Request $request, $recipeId)
     {
-        $softDelete = Recipe::destroy($id);
+        $softDelete = Recipe::destroy($recipeId);
 
         if($softDelete){ 
             return response()->json([

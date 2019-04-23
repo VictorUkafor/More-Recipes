@@ -182,6 +182,11 @@ return [
 
         // Cloudinary
         JD\Cloudder\CloudderServiceProvider::class,
+ 
+        // Blasttech API Documentation
+        Blasttech\ApiDoc\ApiDocGeneratorServiceProvider::class,
+
+        Oxycoder\ApiDoc\ApiDocGeneratorServiceProvider::class,
 
     ],
 

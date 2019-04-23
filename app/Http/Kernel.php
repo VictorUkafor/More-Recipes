@@ -57,6 +57,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'validateSignup' => \App\Http\Middleware\ValidateSignup::class,
+        'validateUser' => \App\Http\Middleware\ValidateUser::class,
+        'validatePasswordReset' => \App\Http\Middleware\ValidatePasswordReset::class,
         'validateLogin' => \App\Http\Middleware\ValidateLogin::class,
         'validateNewRecipe' => \App\Http\Middleware\ValidateNewRecipe::class,
         'validateUpdateRecipe' => \App\Http\Middleware\ValidateUpdateRecipe::class,
