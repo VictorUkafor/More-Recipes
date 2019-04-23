@@ -46,7 +46,8 @@
             "php artisan optimize",
             "chmod -R 755 bootstrap\/cache",
             "php artisan migrate",
-            "php artisan cache:clear"
+            "php artisan cache:clear",
+            "php artisan passport:client"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
