@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Recipe;
 use App\Reaction;
+use App\Http\Resources\RecipeResource;
+use App\Http\Resources\RecipeCollection;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -48,7 +50,7 @@ class RecipeController extends Controller
 
             return response()->json([
                 'successMessage' => 'Recipe uploaded successfully',
-                'recipe' => $recipe
+                'recipe' => $user,
             ], 201);
         } else {
             return response()->json([
@@ -88,12 +90,12 @@ class RecipeController extends Controller
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         }
+
+        return (new RecipeCollection($recipes))
+        ->response()
+        ->setStatusCode(200); 
         
-        return response()->json([
-                'recipes' => $recipes
-            ], 200);
-        
-        }
+         }
 
     /**
      * display a single recipe
@@ -110,9 +112,9 @@ class RecipeController extends Controller
         $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
         $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();
         
-        return response()->json([
-            'recipe' => $recipe
-        ], 200);  
+        return (new RecipeResource($recipe))
+        ->response()
+        ->setStatusCode(200);  
 
     }
 
@@ -170,7 +172,6 @@ class RecipeController extends Controller
 
                 return response()->json([
                     'successMessage' => 'Recipe updated successfully',
-                    'recipe' => $recipe
                 ], 201);
             } else {
                 return response()->json([

@@ -27,12 +27,11 @@ class ReactionController extends Controller
         $recipe = Recipe::find($recipeId);
         $user_id = Auth::user()->id;
         $vote = $request->query('vote');
+        $reaction = '';
 
         // sets query vote to zero when it is
         // neither 1 or -1
-        if($vote != 1 && $vote != -1){
-            $vote = 0;
-        } 
+        if($vote == 1 || $vote == -1){
 
         $reaction = Reaction::where([
             'recipe_id' => $recipeId,
@@ -43,13 +42,15 @@ class ReactionController extends Controller
         // does not exist
         if(!$reaction){
             $reaction = new Reaction;
-        } 
-
-        $reaction->recipe_id = $recipeId;
-        $reaction->user_id = $user_id;
-        $reaction->vote = $vote;
+        }
+            $reaction->recipe_id = $recipeId;
+            $reaction->user_id = $user_id;
+            $reaction->vote = $vote;
+            $reaction->save();
+    }
         
-        if ($reaction->save()) {            
+
+        if (isset($vote)) {            
             // insert upvotes and downvotes into recipe
             $recipe->upvotes = $recipe->reactions()->where('vote', 1)->count();
             $recipe->downvotes = $recipe->reactions()->where('vote', -1)->count();

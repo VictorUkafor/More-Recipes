@@ -27,6 +27,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Recipe');
     }
 
+    protected $guarded = ['id'];
+
     /**
      * The attributes that are mass assignable.
      *

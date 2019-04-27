@@ -26,6 +26,8 @@ class Recipe extends Model
         return $this->hasMany('App\Reaction');
     }
 
+    protected $guarded = ['id'];
+
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +35,7 @@ class Recipe extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'ingredients',
         'method',

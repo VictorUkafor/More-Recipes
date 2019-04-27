@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Recipe;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -38,11 +39,14 @@ class UserController extends Controller
         if ($user->save()) {
             $token = $user->createToken('authToken')->accessToken;
             return response()->json([
-                'user' => $user, 'token' => $token
-            ], 201);
+                'user' => $user,
+                'token' => $token
+            ], 201); 
+
         } else {
             return response()->json([
-                'errorMessage' => 'Internal server error'], 500);
+                'errorMessage' => 'Internal server error'
+            ], 500);
         }
     }
 
@@ -75,8 +79,10 @@ class UserController extends Controller
             // return user and token after 
             // sucessfull authentication
             return response()->json([
-                'user' => $user, 'token' => $token
-            ], 201);
+                'user' => $user,
+                'token' => $token
+            ], 201); 
+
         } else {
 
             // when authentication fails
@@ -101,9 +107,11 @@ class UserController extends Controller
             // and insert into user
             $recipe = Recipe::find($favourite->id);
             $favourite->upvotes = $recipe->reactions()->where('vote', 1)->count();
-            $favourite->downvotes = $recipe->reactions()->where('vote', -1)->count();
+            $favourite->downvotes = $recipe->reactions()->where('vote', -1)->count();  
         }
 
-        return response()->json(['user' => $user], 200);
+        return (new UserResource($user))
+        ->response()
+        ->setStatusCode(200);
     }
 }

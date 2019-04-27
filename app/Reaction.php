@@ -20,5 +20,5 @@ class Reaction extends Model
      *
      * @var array
      */
-    protected $fillable = ['vote'];
+    protected $fillable = ['vote', 'user_id','recipe_id'];
 }
