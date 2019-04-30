@@ -187,6 +187,9 @@ return [
         Blasttech\ApiDoc\ApiDocGeneratorServiceProvider::class,
 
         Oxycoder\ApiDoc\ApiDocGeneratorServiceProvider::class,
+        
+        // Cors
+        Barryvdh\Cors\ServiceProvider::class,
 
     ],
 

@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'ownRecipe' => \App\Http\Middleware\OwnRecipe::class,
         'findRecipe' => \App\Http\Middleware\FindRecipe::class,
         'findAllRecipes' => \App\Http\Middleware\FindAllRecipes::class,
+        'cors' => \App\Http\Middleware\Cors::class,
     ];
 }

@@ -19,13 +19,14 @@ class RecipeCollection extends ResourceCollection
         return $this->collection->transform(function ($data) {
             return [ 
                 'id' => $data->id,
+                'user_id' => $data->user_id,
                 'recipe_name' => $data->name,
                 'ingredients' => $data->ingredients,
                 'method_of_preparation' => $data->method,
                 'cloudinary_image_public_id' => $data->image,
                 'upvotes' => $data->upvotes,
                 'downvotes' => $data->downvotes,
-                'created_at' => (string)$data->created_at
+                'created_at' => (string)$data->created_at,
             ]; 
         });
     }

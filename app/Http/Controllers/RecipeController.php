@@ -50,7 +50,7 @@ class RecipeController extends Controller
 
             return response()->json([
                 'successMessage' => 'Recipe uploaded successfully',
-                'recipe' => $user,
+                'recipe' => $recipe,
             ], 201);
         } else {
             return response()->json([
